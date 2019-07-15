@@ -17,3 +17,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::get('notebooks', 'NotebookController@index');
+Route::get('partitions', 'PartitionController@index');
+Route::get('pages', 'PageController@index');
+Route::get('pages/{uuid}', 'PageController@one');
