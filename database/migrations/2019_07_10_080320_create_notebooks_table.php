@@ -18,6 +18,7 @@ class CreateNotebooksTable extends Migration
             $table->string('uuid',40);
             $table->integer('uid');
             $table->string('name',100);
+            $table->timestamps();
         });
     }
 

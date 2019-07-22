@@ -10,4 +10,10 @@ class PartitionController extends Controller
     public function index(Request $request){
         return Partition::all()->where('parent','=',$request->input('parent'));
 }
+public function add(){
+
+}
+public function delete($uuid){
+
+}
 }

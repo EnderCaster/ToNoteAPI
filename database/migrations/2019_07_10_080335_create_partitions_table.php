@@ -19,6 +19,7 @@ class CreatePartitionsTable extends Migration
             $table->integer('uid');
             $table->string('name',100);
             $table->string('parent',40);//notebook的uuid
+            $table->timestamps();
         });
     }
 
