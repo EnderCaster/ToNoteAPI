@@ -17,8 +17,21 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::get('notebooks', 'NotebookController@index');
-Route::get('notebooks/test', 'NotebookController@add');
+Route::post('notebooks', 'NotebookController@add');
+Route::patch('notebooks/{uuid}', 'NotebookController@save');
+Route::put('notebooks/{uuid}', 'NotebookController@save');
+Route::delete('notebooks/{uuid}', 'NotebookController@delete');
+
+
 Route::get('partitions', 'PartitionController@index');
+Route::post('partitions', 'PartitionController@add');
+Route::patch('partitions/{uuid}', 'PartitionController@save');
+Route::put('partitions/{uuid}', 'PartitionController@save');
+Route::delete('partitions/{uuid}', 'PartitionController@delete');
+
 Route::get('pages', 'PageController@index');
 Route::get('pages/{uuid}', 'PageController@one');
+Route::post('pages', 'PageController@add');
 Route::patch('pages/{uuid}', 'PageController@save');
+Route::patch('put/{uuid}', 'PageController@save');
+Route::delete('pages/{uuid}', 'PageController@delete');
