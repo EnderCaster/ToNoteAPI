@@ -1,0 +1,27 @@
+image: php:latest
+
+cache:
+  paths:
+    - vendor/
+
+variables:
+  MYSQL_DATABASE: to_note
+  MYSQL_ROOT_PASSWORD: nothing
+
+services:
+  - memcached
+  - redis-server
+  - mysql
+
+before_install:
+  - phpenv config-rm xdebug.ini || true
+  - echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - printf "\n" | pecl install -f redis-4.3.0
+  - travis_retry composer self-update
+  - mysql -e 'CREATE DATABASE forge;'
+
+install:
+  - if [[ $SETUP = 'stable' ]]; then travis_retry composer update --prefer-dist --no-interaction --prefer-stable --no-suggest; fi
+  - if [[ $SETUP = 'lowest' ]]; then travis_retry composer update --prefer-dist --no-interaction --prefer-lowest --prefer-stable --no-suggest; fi
+
+script: vendor/bin/phpunit
