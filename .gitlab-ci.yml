@@ -13,15 +13,25 @@ services:
   - redis-server
   - mysql
 
-before_install:
+before_script:
+  - cat /etc/apt/sources.list
+  - apt-get update -yqq
+  - apt-get install -yqq git libmcrypt-dev libpq-dev libcurl4-gnutls-dev libicu-dev libvpx-dev libjpeg-dev libpng-dev libxpm-dev zlib1g-dev libfreetype6-dev libxml2-dev libexpat1-dev libbz2-dev libgmp3-dev libldap2-dev unixodbc-dev libsqlite3-dev libaspell-dev libsnmp-dev libpcre3-dev libtidy-dev
+  # Install PHP extensions
+  - docker-php-ext-install mbstring mcrypt pdo_pgsql curl json intl gd xml zip bz2 opcache
+  # Install & enable Xdebug for code coverage reports
+  - pecl install xdebug
+  - docker-php-ext-enable xdebug
+  # Install and run Composer
+  - curl -sS https://getcomposer.org/installer | php
+  - alias composer='php composer.phar'
   - phpenv config-rm xdebug.ini || true
   - echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - printf "\n" | pecl install -f redis-4.3.0
-  - travis_retry composer self-update
+  - composer self-update
   - mysql -e 'CREATE DATABASE forge;'
+  - composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
+  - composer install
 
-install:
-  - if [[ $SETUP = 'stable' ]]; then travis_retry composer update --prefer-dist --no-interaction --prefer-stable --no-suggest; fi
-  - if [[ $SETUP = 'lowest' ]]; then travis_retry composer update --prefer-dist --no-interaction --prefer-lowest --prefer-stable --no-suggest; fi
-
-script: vendor/bin/phpunit
+test:
+  script: vendor/bin/phpunit --configuration phpunit.xml --coverage-text --colors=never

@@ -17,7 +17,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::post('login', 'UserController@login');
-Route::get('myToken', 'UserController@newToken');
+Route::post('logout', 'UserController@logout');
 
 Route::middleware('auth:api')->get('notebooks', 'NotebookController@index');
 Route::middleware('auth:api')->post('notebooks', 'NotebookController@add');

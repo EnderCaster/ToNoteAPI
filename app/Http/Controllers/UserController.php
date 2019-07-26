@@ -18,10 +18,10 @@ class UserController extends Controller
         curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
         curl_setopt($curl,CURLOPT_POSTFIELDS,http_build_query($parameters));
 
-        return json_decode(curl_exec($curl),true);
+        $auth_result = curl_exec($curl);
+        $status_code=curl_getinfo($curl,CURLINFO_HTTP_CODE);
+
+        return response(json_decode($auth_result,true),$status_code);
     }
-    public function newToken(){
-        $user=User::find(1);
-        return $user->createToken('Primary Token')->accessToken;
-    }
+
 }

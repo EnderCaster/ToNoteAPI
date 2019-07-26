@@ -19,15 +19,14 @@ class NotebookController extends Controller
         $notebook = new Notebook();
         $notebook->uuid = strtoupper(Uuid::uuid1()->getHex());
         $notebook->name = Input::input('name');
-        //TODO get current uid
-        $notebook->uid = 0;
+        $notebook->uid = \request()->user()->id;
         $notebook->save();
         return $notebook;
     }
 
     public function delete($uuid)
     {
-        $notebook = Notebook::where('uuid', '=', $uuid)->first();
+        $notebook = Notebook::where('uuid', '=', $uuid)->where('uid','=',\request()->user()->id)->first();
         $notebook->delete();
         return $notebook;
 
@@ -35,7 +34,7 @@ class NotebookController extends Controller
 
     public function save($uuid)
     {
-        $notebook = Notebook::where('uuid', '=', $uuid)->first();
+        $notebook = Notebook::where('uuid', '=', $uuid)->where('uid','=',\request()->user()->id)->first();
         $notebook->name = Input::input('name');
         $notebook->save();
         return $notebook;
