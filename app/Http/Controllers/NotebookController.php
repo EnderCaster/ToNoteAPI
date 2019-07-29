@@ -11,7 +11,7 @@ class NotebookController extends Controller
 {
     public function index()
     {
-        return Notebook::all();
+        return Notebook::all()->where('uid','=',\request()->user()->id);
     }
 
     public function add()
