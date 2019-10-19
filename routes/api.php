@@ -38,3 +38,5 @@ Route::middleware('auth:api')->post('pages', 'PageController@add');
 Route::middleware('auth:api')->patch('pages/{uuid}', 'PageController@save');
 Route::middleware('auth:api')->patch('put/{uuid}', 'PageController@save');
 Route::middleware('auth:api')->delete('pages/{uuid}', 'PageController@delete');
+
+Route::middleware('auth:api')->post('file/upload', 'FileController@upload');
