@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller
 {
@@ -13,9 +14,16 @@ class FileController extends Controller
         }
         // TODO 上传到图床
         $file_parameter_name=array_keys($files)[0];
-        $url='https://i2.hdslb.com/bfs/face/f7d8bd2186303bf7b12895607d3af2b09df3d9cc.jpg';
+        $user=$request->user();
+        $username=$user->name;
+        $file=$files[$file_parameter_name];
+        $file_path=Storage::putFile("{$username}",$file);
+
         return [
-            'url'=>$url
+            'url'=>$file_path
         ];
+    }
+    function storage($user,$filename){
+        return Storage::download("{$user}/{$filename}");
     }
 }

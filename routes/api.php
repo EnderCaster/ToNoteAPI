@@ -40,3 +40,4 @@ Route::middleware('auth:api')->patch('put/{uuid}', 'PageController@save');
 Route::middleware('auth:api')->delete('pages/{uuid}', 'PageController@delete');
 
 Route::middleware('auth:api')->post('file/upload', 'FileController@upload');
+Route::get('file/{user}/{filename}', ['uses'=>'FileController@storage']);
