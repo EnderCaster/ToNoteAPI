@@ -10,4 +10,11 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+    public function makeReturnArray($data,$code=200,$message='OK'){
+        return [
+            'code'=>$code,
+            'message'=>$message,
+            'data'=>$data
+        ];
+    }
 }

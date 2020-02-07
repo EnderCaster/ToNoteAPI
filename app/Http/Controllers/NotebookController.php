@@ -9,34 +9,34 @@ use Ramsey\Uuid\Uuid;
 
 class NotebookController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return Notebook::all()->where('uid','=',\request()->user()->id);
+        $notebooks = Notebook::query()->where('uid', '=', $request->user()->id)->get();
+        return $this->makeReturnArray($notebooks);
     }
 
-    public function add()
+    public function add(Request $request)
     {
         $notebook = new Notebook();
         $notebook->uuid = strtoupper(Uuid::uuid1()->getHex());
         $notebook->name = Input::input('name');
-        $notebook->uid = \request()->user()->id;
+        $notebook->uid = $request->user()->id;
         $notebook->save();
-        return $notebook;
+        return $this->makeReturnArray($notebook);
     }
 
-    public function delete($uuid)
+    public function delete(Request $request, $uuid)
     {
-        $notebook = Notebook::where('uuid', '=', $uuid)->where('uid','=',\request()->user()->id)->first();
+        $notebook = Notebook::where('uuid', '=', $uuid)->where('uid', '=', $request->user()->id)->first();
         $notebook->delete();
-        return $notebook;
-
+        return $this->makeReturnArray($notebook);
     }
 
-    public function save($uuid)
+    public function save(Request $request, $uuid)
     {
-        $notebook = Notebook::where('uuid', '=', $uuid)->where('uid','=',\request()->user()->id)->first();
+        $notebook = Notebook::where('uuid', '=', $uuid)->where('uid', '=', $request->user()->id)->first();
         $notebook->name = Input::input('name');
         $notebook->save();
-        return $notebook;
+        return $this->makeReturnArray($notebook);
     }
 }
