@@ -16,12 +16,12 @@ class ClearCors
      */
     public function handle($request, Closure $next)
     {
-        $response=$next($request);
-        if (is_a($response,StreamedResponse::class)){
+        $response = $next($request);
+        if ($response instanceof StreamedResponse) {
             return $response;
         }
-        return $next($request)->header('Access-Control-Allow-Origin', '*')
+        return $response->header('Access-Control-Allow-Origin', '*')
             ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH')
-            ->header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, X-Token-Auth, Authorization');
+            ->header('Access-Control-Allow-Headers', 'Access-Control-Allow-Origin, X-Requested-With, Content-Type, X-Token-Auth, Authorization');
     }
 }

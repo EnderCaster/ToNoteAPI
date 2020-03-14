@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+
 
 
 use App\User;
@@ -32,18 +34,14 @@ class UserController extends Controller
     {
         $inputs = $request->all();
         $validator = Validator::make($inputs, [
-            'username' => 'required|alpha_dash|between:8,50',
+            'username' => 'required|alpha_dash|between:8,50|unique:users,name',
             'password' => 'required|between:8,40|confirmed',
             'password_confirmation' => 'required|between:8,40'
-        ]);
+        ], config('validation')['users']);
         if ($validator->fails()) {
             return $this->makeReturnArray($validator->errors()->messages(), 403, '');
         }
-        $user = User::query()->where('name', '=', $inputs['username'])->get();
-        if (!empty($user)) {
-            return $this->makeReturnArray(['name' => '用户名已占用'], 403, '用户名已占用');
-        }
-        $user_params = ['name' => $inputs['username'], 'password' => Hash::make($inputs['password']), 'email' => $inputs['name'] . '@endercaster.lan'];
+        $user_params = ['name' => $inputs['username'], 'password' => Hash::make($inputs['password'])];
         $user = new User();
         $user->fill($user_params);
         $user->save();

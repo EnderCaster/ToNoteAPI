@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
 
 class FormatResponse
 {
@@ -16,6 +17,7 @@ class FormatResponse
      */
     public function handle($request, Closure $next)
     {
+
         $response = $next($request);
         if (!($response instanceof JsonResponse)) {
             return $response;
