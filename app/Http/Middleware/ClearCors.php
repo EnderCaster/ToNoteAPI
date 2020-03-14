@@ -17,7 +17,7 @@ class ClearCors
     public function handle($request, Closure $next)
     {
         $response = $next($request);
-        if ($response instanceof StreamedResponse) {
+        if (!method_exists($response, 'header')) {
             return $response;
         }
         return $response->header('Access-Control-Allow-Origin', '*')
