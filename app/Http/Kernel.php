@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\SetAuthHeader;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -39,6 +40,7 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
+            SetAuthHeader::class,
             'throttle:60,1',
             'bindings',
             'api-format',
@@ -64,7 +66,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'api-format' => \App\Http\Middleware\FormatResponse::class,
-        'cors' => \App\Http\Middleware\ClearCors::class,
     ];
 
     /**

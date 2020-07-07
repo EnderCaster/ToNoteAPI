@@ -26,7 +26,10 @@ class FileController extends Controller
     }
     function storage(Request $request, $user, $filename)
     {
-        //TODO 查找验证方式
+        $logedin_user = $request->user();
+        if (empty($logedin_user) || $logedin_user['name'] != $user) {
+            return $this->makeReturnArray([], 403, "Auth Failed");
+        }
         return Storage::download("{$user}/{$filename}");
     }
 }
