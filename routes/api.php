@@ -16,9 +16,9 @@ use Illuminate\Http\Request;
 Route::get('/', function () {
     return "Hello World";
 });
-Route::post('login', 'UserController@login');
-Route::post('register', 'UserController@register');
-Route::post('logout', 'UserController@logout');
+Route::post('login', 'App\\Http\\Controllers\\UserController@login');
+Route::post('register', 'App\\Http\\Controllers\\UserController@register');
+Route::post('logout', 'App\\Http\\Controllers\\UserController@logout');
 
 
 
@@ -26,27 +26,27 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/user', function (Request $request) {
         return ['code' => 200, "data" => $request->user()];
     });
-    Route::get('notebooks', 'NotebookController@index');
-    Route::post('notebooks', 'NotebookController@add');
-    Route::patch('notebooks/{uuid}', 'NotebookController@save');
-    Route::put('notebooks/{uuid}', 'NotebookController@save');
-    Route::delete('notebooks/{uuid}', 'NotebookController@delete');
+    Route::get('notebooks', 'App\\Http\\Controllers\\NotebookController@index');
+    Route::post('notebooks', 'App\\Http\\Controllers\\NotebookController@add');
+    Route::patch('notebooks/{uuid}', 'App\\Http\\Controllers\\NotebookController@save');
+    Route::put('notebooks/{uuid}', 'App\\Http\\Controllers\\NotebookController@save');
+    Route::delete('notebooks/{uuid}', 'App\\Http\\Controllers\\NotebookController@delete');
 
 
-    Route::get('partitions', 'PartitionController@index');
-    Route::post('partitions', 'PartitionController@add');
-    Route::patch('partitions/{uuid}', 'PartitionController@save');
-    Route::put('partitions/{uuid}', 'PartitionController@save');
-    Route::delete('partitions/{uuid}', 'PartitionController@delete');
+    Route::get('partitions', 'App\\Http\\Controllers\\PartitionController@index');
+    Route::post('partitions', 'App\\Http\\Controllers\\PartitionController@add');
+    Route::patch('partitions/{uuid}', 'App\\Http\\Controllers\\PartitionController@save');
+    Route::put('partitions/{uuid}', 'App\\Http\\Controllers\\PartitionController@save');
+    Route::delete('partitions/{uuid}', 'App\\Http\\Controllers\\PartitionController@delete');
 
-    Route::get('pages', 'PageController@index');
-    Route::get('pages/{uuid}', 'PageController@one');
-    Route::post('pages', 'PageController@add');
-    Route::patch('pages/{uuid}', 'PageController@save');
-    Route::patch('put/{uuid}', 'PageController@save');
-    Route::delete('pages/{uuid}', 'PageController@delete');
+    Route::get('pages', 'App\\Http\\Controllers\\PageController@index');
+    Route::get('pages/{uuid}', 'App\\Http\\Controllers\\PageController@one');
+    Route::post('pages', 'App\\Http\\Controllers\\PageController@add');
+    Route::patch('pages/{uuid}', 'App\\Http\\Controllers\\PageController@save');
+    Route::patch('put/{uuid}', 'App\\Http\\Controllers\\PageController@save');
+    Route::delete('pages/{uuid}', 'App\\Http\\Controllers\\PageController@delete');
 
-    Route::post('file/upload', 'FileController@upload');
+    Route::post('file/upload', 'App\\Http\\Controllers\\FileController@upload');
 
-    Route::get('file/{user}/{filename}', ['uses' => 'FileController@storage']);
+    Route::get('file/{user}/{filename}', ['uses' => 'App\\Http\\Controllers\\FileController@storage']);
 });

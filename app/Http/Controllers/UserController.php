@@ -28,7 +28,8 @@ class UserController extends Controller
         $auth_result = curl_exec($curl);
         $status_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
-        return $this->makeReturnArray(json_decode($auth_result, true), $status_code);
+        // return $this->makeReturnArray(json_decode($auth_result, true), $status_code);
+        return $this->makeReturnArray(array_merge(json_decode($auth_result, true),$parameters), $status_code);
     }
     public function register(Request $request)
     {
@@ -41,7 +42,7 @@ class UserController extends Controller
         if ($validator->fails()) {
             return $this->makeReturnArray($validator->errors()->messages(), 403, '');
         }
-        $user_params = ['name' => $inputs['username'], 'password' => Hash::make($inputs['password'])];
+        $user_params = ['name' => $inputs['username'], 'password' => Hash::make($inputs['password']),'email'=>$inputs['username'].'@endercaster.com'];
         $user = new User();
         $user->fill($user_params);
         $user->save();

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Notebook;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Request as Input;
 use Ramsey\Uuid\Uuid;
 use Illuminate\Support\Facades\Validator;
 
